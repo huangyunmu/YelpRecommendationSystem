@@ -102,4 +102,4 @@ ENV/
 .project
 .pydevproject
 #data
-data
+data/
