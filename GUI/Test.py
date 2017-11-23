@@ -3,10 +3,9 @@
 Created on 2017/11/23
 @author: andyh
 '''
-# import BusinessQuery
 import os
-from dataStructure import BusinessQuery;
-from dataStructure import GeneralTool;
+from dataStructure import BusinessQuery
+from dataStructure import GeneralTool
 if __name__=='__main__':
     id="mLwM-h2YhXl2NCgdS84_Bw"
     filePath="business_rest.txt"
