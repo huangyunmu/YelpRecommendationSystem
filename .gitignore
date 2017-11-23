@@ -101,3 +101,5 @@ ENV/
 # my project
 .project
 .pydevproject
+#data
+data
