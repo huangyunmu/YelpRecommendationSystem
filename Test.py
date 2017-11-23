@@ -4,8 +4,6 @@ Created on 2017/11/23
 @author: andyh
 '''
 import os
-import sys
-sys.path.append("..")
 from dataStructure import BusinessQuery
 from dataStructure import GeneralTool
 if __name__=='__main__':
