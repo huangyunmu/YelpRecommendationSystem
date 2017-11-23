@@ -52,5 +52,5 @@ if __name__ == '__main__':
     b = BusinessQuery(path)
     print(b.getBusinessById(id))
     result=b.getBusinessIdByCity(city)
-    for city in result:
-        print(city)
+    for id in result:
+        print(id)
