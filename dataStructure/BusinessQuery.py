@@ -33,7 +33,7 @@ class BusinessQuery(object):
 if __name__ == '__main__':
 #     id=input()
     id = "mLwM-h2YhXl2NCgdS84_Bw"
-    path = 'business_rest.txt'
+    path = 'business_full_data.txt'
     path = GeneralTool.getDataPath(path)
 #     id="12312"
     b = BusinessQuery(path)
