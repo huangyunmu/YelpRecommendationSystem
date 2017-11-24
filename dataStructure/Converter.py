@@ -27,7 +27,7 @@ class Converter:
             if (str(temp[0]) == inStr):
                 #print(temp[1])
                 data.close()
-                return temp[1]
+                return int(temp[1])
 
     def getUserStr(self, inInt,path='user_int_to_string.txt'):
         self.path = GeneralTool.getDataPath(path)
@@ -49,7 +49,7 @@ class Converter:
             if (str(temp[0]) == inStr):
                 #print(temp[1])
                 data.close()
-                return temp[1]
+                return int(temp[1])
 
         
         
