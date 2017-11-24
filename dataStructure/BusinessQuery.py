@@ -12,10 +12,11 @@ class BusinessQuery(object):
     '''
     classdocs
     '''
-    def __init__(self, file_path):
+    def __init__(self, file_path = 'business_full_data.txt'):
         '''
         Constructor
         '''
+        file_path=GeneralTool.getDataPath((file_path))
         self.path = file_path
         self.cityIndex = 4
     def getBusinessById (self, businessid):
@@ -52,5 +53,6 @@ if __name__ == '__main__':
     b = BusinessQuery(path)
     print(b.getBusinessById(id))
     result=b.getBusinessIdByCity(city)
-    for id in result:
-        print(id)
+    print(len(result))
+    ##for id in result:
+        ##print(id)

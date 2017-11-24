@@ -1,4 +1,9 @@
 from tkinter import *
+import sys
+sys.path.append("..")
+from PMF import user_query
+from dataStructure import BusinessQuery
+from dataStructure import Converter
 root = Tk()
 root.title("PMF Recommendation System")
 root.geometry('480x360')
@@ -15,14 +20,28 @@ def getrecommend():
         messagebox.showinfo(title='Remainder', message='Please input Location!')
 
     if User_id != "" and City != "":
-        ShowWindow()
         
-def ShowWindow():
+        business_query=BusinessQuery.BusinessQuery()
+        iid_list=business_query.getBusinessIdByCity(City)
+        converter=Converter.Converter()
+        User_id=converter.getUserInt(User_id)
+        #item_list=[converter.getBusinessInt(iid) for iid in iid_list]
+        print(len(iid_list))
+        #recommend=sort_by_rating(User_id,item_list)
+        recommend=user_query.sort_by_rating(0,range(0,100))
+        print(recommend[:5])
+        ShowWindow(recommend[:5])
+        
+
+def ShowWindow(recommend):
     top1 = Toplevel()
     top1.geometry('360x360')
     top1.title("Recommendation Results")
     root.resizable(width=False, height=True)
     test = Label(top1, text='List:', font=('Arial', 15),width=10).pack()
+    ##
+    
+    ##
     Button(top1,text="Close Window",width = 20,command = top1.quit).pack(side=TOP, expand=NO, fill =Y)
     top1.mainloop()
     top1.destroy()
