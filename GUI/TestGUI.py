@@ -35,13 +35,21 @@ def getrecommend():
 
 def ShowWindow(recommend):
     top1 = Toplevel()
-    top1.geometry('360x360')
+    top1.geometry('360x480')
     top1.title("Recommendation Results")
     root.resizable(width=False, height=True)
     test = Label(top1, text='List:', font=('Arial', 15),width=10).pack()
     ##
-    
+'''    
+    listbox = Listbox(top1)
+    for item in recommend:
+        listbox.insert(END,item)
+    listbox.pack()
+'''
     ##
+    for item in recommend:
+        tt = Label (top1,text =item, font=('Arial', 15),width=10).pack()
+    
     Button(top1,text="Close Window",width = 20,command = top1.quit).pack(side=TOP, expand=NO, fill =Y)
     top1.mainloop()
     top1.destroy()
