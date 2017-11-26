@@ -50,14 +50,24 @@ class Converter:
                 #print(temp[1])
                 data.close()
                 return int(temp[1])
+    def getBusinessIntByCity(self,input_city,path='business_city_int.txt'):
+        self.path = GeneralTool.getDataPath(path)
+        data = open(self.path,'r')
+        for line in data:
+            line=line.strip()
+            city,ilist=line.split('\t')
+            if city==input_city:
+                output=[int(i) for i in ilist.split(', ')]
+                data.close()
+                return output
 
         
-        
-##
-##t = Converter();
-##gg=t.getBusinessStr(5,"business_int_to_string.txt")
-##print("Something")
-##print(gg)
-        
+if __name__ == '__main__':
+    t = Converter();
+    gg=t.getBusinessIntByCity('Montreal')
+    print("Something")
+    print(gg)
+    print(len(gg))
+            
         
         

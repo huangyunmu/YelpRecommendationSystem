@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.messagebox import *
 import sys
 sys.path.append("..")
 from PMF import user_query
@@ -10,11 +11,11 @@ def getrecommend():
     User_id = var.get()
     if User_id == "":
         
-        messagebox.showinfo(title='Remainder', message='Please input User ID!')
+        showinfo(title='Remainder', message='Please input User ID!')
         print("test only")
     City = var2.get()
     if City == "":
-        messagebox.showinfo(title='Remainder', message='Please input Location!')
+        showinfo(title='Remainder', message='Please input location!')
 
     if User_id != "" and City != "":
         
@@ -22,17 +23,15 @@ def getrecommend():
         iid_list=business_query.getBusinessIdByCity(City)
         converter=Converter.Converter()
         User_id=converter.getUserInt(User_id)
-        #iid_list
-        print(len(iid_list))
-        item_list=[converter.getBusinessInt(iid) for iid in iid_list]
-        print(len(item_list))
-        top_five=user_query.sort_by_rating(User_id,item_list)[0:5]
-        #recommend=user_query.sort_by_rating(0,range(0,100))[0:5]
-        #top_five=[0,1,2,3,4]
-        recommend=[converter.getBusinessStr(i) for i in top_five]
-        recommend=[business_query.getBusinessById(i.strip('\n'))[0] for i in recommend]
-        print(recommend)
-        ShowWindow(recommend)
+        item_list=converter.getBusinessIntByCity(City)
+        
+        if(item_list==None):
+            showinfo(title='Remainder', message='Please input valid location!')
+        else: 
+            top_five=user_query.sort_by_rating(User_id,item_list)[0:5]
+            recommend=[converter.getBusinessStr(i) for i in top_five]
+            recommend=[business_query.getBusinessById(i.strip('\n'))[0] for i in recommend]
+            ShowWindow(recommend)
         
 
 def ShowWindow(recommend):
@@ -64,7 +63,7 @@ if __name__ == "__main__":
     #Right
     frm_R = Frame(frm)
     var = StringVar()
-    e = Entry(frm_R,textvariable = var)
+    e = Entry(frm_R,textvariable = var,width=25)
     e.pack()
     frm_R.pack(side=RIGHT,expand=YES)
     frm.pack()
@@ -78,7 +77,7 @@ if __name__ == "__main__":
     #Right
     frm_R2 = Frame(frm2)
     var2 = StringVar()
-    e2 = Entry(frm_R2,textvariable = var2)
+    e2 = Entry(frm_R2,textvariable = var2,width=25)
     e2.pack()
     frm_R2.pack(side=RIGHT,expand=YES)
     frm2.pack()
