@@ -29,19 +29,23 @@ def getrecommend():
             showinfo(title='Remainder', message='Please input valid location!')
         else: 
             top_five=user_query.sort_by_rating(User_id,item_list)[0:5]
-            recommend=[converter.getBusinessStr(i) for i in top_five]
+            #print(top_five)
+            rating=['%.2f'%top_five[i][1] for i in range(0,5)]
+            #print(rating)
+            recommend=[converter.getBusinessStr(i[0]) for i in top_five]
             recommend=[business_query.getBusinessById(i.strip('\n'))[0] for i in recommend]
-            ShowWindow(recommend)
+            ShowWindow(recommend,rating,City)
         
 
-def ShowWindow(recommend):
+def ShowWindow(recommend,rating,city):
     top1 = Toplevel()
     top1.geometry('360x360')
     top1.title("Recommendation Results")
     root.resizable(width=False, height=True)
-    test = Label(top1, text='Recommendation:', font=('Arial', 15),width=50).pack()
-    for item in recommend:
-        tt = Label (top1,text =item, font=('Arial', 10),width=50).pack()
+    test = Label(top1, text='Recommended Restaurant in '+city+' :', font=('Arial', 15),width=50).pack()
+    ttitle = Label (top1,text ='Restaurant\tRating', font=('Arial', 12),width=50).pack()
+    for i in range(0,5):
+        tt = Label (top1,text =recommend[i]+'\t'+rating[i], font=('Arial', 10),width=50).pack()
     Button(top1,text="Close Window",width = 20,command = top1.quit).pack(side=TOP, expand=NO, fill =Y)
     top1.mainloop()
     top1.destroy()

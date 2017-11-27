@@ -23,5 +23,5 @@ fo=open(GeneralTool.getDataPath('business_city_int.txt'),'w',encoding='utf8')
 for city, ilist in dict_city.items():
     if(len(ilist)>=5):
         fo.write(city+'\t'+str(ilist).strip('[]')+'\n')
-        #print(len(ilist))
+        print(city,len(ilist))
 fo.close()

@@ -42,7 +42,7 @@ def sort_by_rating(u_index,item_index_list,uvpath='user_vector30000.txt',ivpath=
         rating=calculate_rating(user_vec,item_vec,get_bias(bias_path))
         _list.append([item_index_list[i],rating])
     _list=sorted(_list,key=lambda x:x[1],reverse=True)
-    result=[i[0] for i in _list]
+    result=[[i[0],i[1]] for i in _list]
     #print(result)
     return result
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 ##    print(get_bias('global_bias.txt'))
 ##    print(calculate_rating(user_vec,item_vec,get_bias('global_bias.txt')))
 
-    t=sort_by_rating(0,[0,1,2,3,4,5])
+    t=sort_by_rating(0,range(0,50))
 
     print(t)
     
