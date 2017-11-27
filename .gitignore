@@ -102,5 +102,7 @@ ENV/
 .project
 .pydevproject
 #data
+data/review_final.txt
+data/testResult
 #settings
 .settings
