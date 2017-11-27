@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+sys.path.append("..")
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import linalg as LA
 from numpy import *
 from LoadData import load_rating_data, spilt_rating_dat
+from dataStructure import GeneralTool
+import time
 
 
 class PMF(object):
@@ -112,6 +117,9 @@ class PMF(object):
 
                     # Print info
                 if batch == self.num_batches - 1:
+                    print(self.epoch)
+                    localtime = time.asctime(time.localtime(time.time()))
+                    print("本地时间为 :" + str(localtime))
                     print('Training RMSE: %f, Test RMSE %f' % (self.err_train[-1], self.err_val[-1]))
                     self.train_rmse.append(self.err_train[-1])
                     self.test_rmse.append(self.err_val[-1])
@@ -121,15 +129,15 @@ class PMF(object):
         return np.dot(self.w_C, self.w_I[int(invID), :]) + self.mean_inv  # numpy.dot 点乘
 
     # ****************Set parameters by providing a parameter dictionary.  ***********#
-    def set_params(self, parameters):
-        if isinstance(parameters, dict):
-            self.num_feat = parameters.get("num_feat", 10)
-            self.epsilon = parameters.get("epsilon", 1)
-            self._lambda = parameters.get("_lambda", 0.1)
-            self.momentum = parameters.get("momentum", 0.8)
-            self.maxepoch = parameters.get("maxepoch", 20)
-            self.num_batches = parameters.get("num_batches", 10)
-            self.batch_size = parameters.get("batch_size", 1000)
+#     def set_params(self, parameters):
+#         if isinstance(parameters, dict):
+#             self.num_feat = parameters.get("num_feat", 10)
+#             self.epsilon = parameters.get("epsilon", 1)
+#             self._lambda = parameters.get("_lambda", 0.1)
+#             self.momentum = parameters.get("momentum", 0.8)
+#             self.maxepoch = parameters.get("maxepoch", 20)
+#             self.num_batches = parameters.get("num_batches", 10)
+#             self.batch_size = parameters.get("batch_size", 1000)
 
     def topK(self, model, test_vec, k=10):  # model TrainDataSet, test_vec
         inv_lst = np.unique(test_vec[:, 0])
@@ -154,45 +162,51 @@ class PMF(object):
 
 
 if __name__ == "__main__":
-    file_path = "final.txt"
-    pmf = PMF()
+    test_file_path = "testResult" + os.sep
+    file_path = GeneralTool.getDataPath("review_final.txt")
+#     file_path = GeneralTool.getDataPath("review_final_part(30000user30000business).txt")
+    pmf = PMF(num_feat=75, epsilon=0.08, _lambda=0.8, momentum=0.8,
+                 maxepoch=100, num_batches=10,
+                 batch_size=4000)
     ratings = load_rating_data(file_path)
     print(len(np.unique(ratings[:, 0])), len(np.unique(ratings[:, 1])), pmf.num_feat)
-    train, test = spilt_rating_dat(ratings,0.01)
+    train, test = spilt_rating_dat(ratings, 0.05)
     pmf.fit(train, test)
-    print(len(pmf.w_C))
-    print(len(pmf.w_I))
-    #for i in range(0,10):
+    print("Lenlen(pmf.w_C)"+str(len(pmf.w_C)))
+    print("Lenlen(pmf.w_I)"+str(len(pmf.w_I)))
+    # for i in range(0,10):
      #   print(pmf.w_C[i])
-    out1=open("item_vector30000.txt",'w')
-    buffer=0
+#     out1=open("item_vector30000.txt",'w')F
+    out1_filename = test_file_path + "item_vector_all.txt"
+    out1 = open(GeneralTool.getDataPath(out1_filename), 'w')
+    buffer = 0
     for i in pmf.w_C:
         for j in i:
             out1.write(str(j))
             out1.write('\t')
         out1.write('\n')
-        buffer+=1
-        if buffer==5000:
+        buffer += 1
+        if buffer == 5000:
             out1.flush()
-            buffer=0
+            buffer = 0
             print('flush5000')
     out1.close()
-
-    out2=open("user_vector30000.txt",'w')
-    buffer=0
+    out2_filename = test_file_path + "user_vector_all.txt"
+    out2 = open(GeneralTool.getDataPath(out2_filename), 'w')
+    buffer = 0
     for i in pmf.w_I:
         for j in i:
             out2.write(str(j))
             out2.write('\t')
         out2.write('\n')
-        buffer+=1
-        if buffer==5000:
+        buffer += 1
+        if buffer == 5000:
             out2.flush()
-            buffer=0
+            buffer = 0
             print('flush5000')
     out2.close()
-
-    out3=open('global_bias.txt','w')
+    out3_filename = test_file_path + "global_bias.txt"
+    out3 = open(GeneralTool.getDataPath(out3_filename), 'w')
     out3.write(str(pmf.mean_inv))
     out3.close()
 
