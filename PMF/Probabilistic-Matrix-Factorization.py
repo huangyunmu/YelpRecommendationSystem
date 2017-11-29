@@ -163,11 +163,11 @@ class PMF(object):
 
 if __name__ == "__main__":
     test_file_path = "testResult" + os.sep
-    file_path = GeneralTool.getDataPath("review_final.txt")
-#     file_path = GeneralTool.getDataPath("review_final_part(30000user30000business).txt")
+#    file_path = GeneralTool.getDataPath("review_final.txt")
+    file_path = GeneralTool.getDataPath("review_final_part(30000user30000business).txt")
     pmf = PMF(num_feat=75, epsilon=0.08, _lambda=0.8, momentum=0.8,
                  maxepoch=100, num_batches=10,
-                 batch_size=4000)
+                 batch_size=1000)
     ratings = load_rating_data(file_path)
     print(len(np.unique(ratings[:, 0])), len(np.unique(ratings[:, 1])), pmf.num_feat)
     train, test = spilt_rating_dat(ratings, 0.05)
