@@ -33,22 +33,24 @@ def getrecommend():
             rating=['%.2f'%top_five[i][1] for i in range(0,5)]
             #print(rating)
             recommend=[converter.getBusinessStr(i[0]) for i in top_five]
-            recommend=[business_query.getBusinessById(i.strip('\n'))[0] for i in recommend]
+            recommend=[[business_query.getBusinessById(i.strip('\n'))[0],business_query.getBusinessById(i.strip('\n'))[2]] for i in recommend]
             ShowWindow(recommend,rating,City)
         
 
 def ShowWindow(recommend,rating,city):
     top1 = Toplevel()
-    top1.geometry('600x360')
+    top1.geometry('720x360')
     top1.title("Recommendation Results")
     root.resizable(width=False, height=True)
-    test = Label(top1, text='Recommended Restaurant in '+city+' :', font=('Arial', 15),width=50).grid(row=0,column=0,columnspan=2)
-    title1 = Label (top1,text ='Restaurant', font=('Arial', 12),width=30).grid(row=1,column=0)
-    title2 = Label (top1,text ='Rating', font=('Arial', 12),width=10).grid(row=1,column=1)
+    test = Label(top1, text='Recommended Restaurant in '+city+' :', font=('Arial', 15),width=50).grid(row=0,column=0,columnspan=3)
+    title1 = Label (top1,text ='Restaurant', font=('Arial', 12),width=30,anchor='w').grid(row=1,column=0)
+    title2 = Label (top1,text ='Rating', font=('Arial', 12),width=10,anchor='w').grid(row=1,column=1)
+    title3 = Label (top1,text ='Address', font=('Arial', 12),width=10,anchor='w').grid(row=1,column=2)
     for i in range(0,5):
-        t1 = Label (top1,text =recommend[i], font=('Arial', 10),width=30,anchor='w').grid(row=i+2,column=0)
+        t1 = Label (top1,text =recommend[i][0], font=('Arial', 10),width=30,anchor='w').grid(row=i+2,column=0)
         t2 = Label (top1,text =rating[i], font=('Arial', 10),width=10).grid(row=i+2,column=1)
-    Button(top1,text="Close Window",width = 20,command = top1.quit).grid(row=9,column=0,columnspan=2)
+        t3 = Label (top1,text =recommend[i][1], font=('Arial', 10),width=30).grid(row=i+2,column=2)
+    Button(top1,text="Close Window",width = 20,command = top1.quit).grid(row=9,column=0,columnspan=3)
     top1.mainloop()
     top1.destroy()
     
