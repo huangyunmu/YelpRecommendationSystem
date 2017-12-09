@@ -155,10 +155,10 @@ class PMF(object):
 
 if __name__ == "__main__":
 
-    file_path = GeneralTool.getDataPath("review_final.txt")
-##    file_path = GeneralTool.getDataPath("review_final_part(30000user30000business).txt")
-    pmf = PMF(num_feat=75, epsilon=0.08, _lambda=0.8, momentum=0.8,
-                 maxepoch=1000, num_batches=10,
+#    file_path = GeneralTool.getDataPath("review_final.txt")
+    file_path = GeneralTool.getDataPath("review_final_part(30000user30000business).txt")
+    pmf = PMF(num_feat=75, epsilon=0.8, _lambda=0., momentum=0.5,
+                 maxepoch=100, num_batches=10,
                  batch_size=1000)
     ratings = load_rating_data(file_path)
     print(len(np.unique(ratings[:, 0])), len(np.unique(ratings[:, 1])), pmf.num_feat)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
     # Check performance by plotting train and test errors
     plt.plot(range(pmf.maxepoch), pmf.train_rmse, marker='o', label='Training Data')
-    plt.plot(range(pmf.maxepoch), pmf.test_rmse, marker='v', label='Test Data')
+    #plt.plot(range(pmf.maxepoch), pmf.test_rmse, marker='v', label='Test Data')
     plt.title('Learning Curve')
     plt.xlabel('Number of Epochs')
     plt.ylabel('RMSE')
